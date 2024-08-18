@@ -1,0 +1,11 @@
+class Point {
+    method int getX() {
+        let x = x * (x + 1);
+
+        if (x < 0) {
+            let sign = "negative";
+        }
+
+        return x;
+    }
+}

@@ -1,0 +1,45 @@
+/**
+ * Implements the Bouncing Ball game.
+ * This simple game allows a ball to move around the screen and bounce off the edges.
+ * When the game starts, a ball of 10 pixels radius is shown at the center of the screen.
+ * The user can stop the game by pressing the 'q' key.
+ */
+class BallGame {
+   field Ball ball; // the ball of this game
+
+   /** Constructs a new ball game. */
+   constructor BallGame new() {
+      // The initial ball is located in the center of the screen, has a radius of 10.
+      let ball = Ball.new(256, 128, 10, 3); // 12345 is the seed for randomness
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do ball.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the ball in the current direction. */
+   method void moveBall() {
+      do ball.move();
+      do Sys.wait(50);  // delays the next movement
+      return;
+   }
+
+   /** Runs the game: moves the ball and handles the user's input to stop the game */
+   method void run() {
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+      let exit = false;
+
+      while (~exit) {
+         // waits for a key to be pressed
+         let key = Keyboard.keyPressed();
+         if (key = 81) { let exit = true; } // q key
+         do moveBall();
+      } // while
+      return;
+   }
+}

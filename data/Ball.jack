@@ -1,0 +1,65 @@
+/** Implements a graphical ball.
+    The ball has a center x and y coordinates, and a radius. */
+class Ball {
+
+   field int x, y; // screen location of the center of this ball
+   field int radius; // radius of this ball, in pixels
+   field int dx, dy; // change in x and y coordinates per movement
+   field Random random; // Random number generator
+
+   /** Constructs and draws a new ball with a given location and radius. */
+   constructor Ball new(int ax, int ay, int aradius, int seed) {
+      let x = ax;
+      let y = ay;
+      let radius = aradius;
+      let random = Random.new(seed);
+      let dx = random.next(3) - 1; // random initial x direction (-1, 0, 1)
+      let dy = random.next(3) - 1; // random initial y direction (-1, 0, 1)
+      if (dx = 0) { let dx = 1; }  // ensure dx is not 0
+      if (dy = 0) { let dy = 1; }  // ensure dy is not 0
+      do draw();
+      return this;
+   }
+
+   /** Disposes this ball. */
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Draws this ball in its current (x,y) location */
+   method void draw() {
+      // Draws the ball using the color white
+      do Screen.setColor(true);
+      do Screen.drawCircle(x, y, radius);
+      return;
+   }
+
+   /** Erases this ball. */
+   method void erase() {
+      // Draws the ball using the color black (background color)
+      do Screen.setColor(false);
+      do Screen.drawCircle(x, y, radius);
+      return;
+   }
+
+   /** Moves this ball based on its dx and dy values. */
+   method void move() {
+      do erase();
+      let x = x + dx;
+      let y = y + dy;
+
+      // Bounce off the edges with a slight random change in direction
+      if (x - radius < 0) { let dx = -dx + (random.next(3) - 1); let x = radius; }
+      if (x + radius > 511) { let dx = -dx + (random.next(3) - 1); let x = 511 - radius; }
+      if (y - radius < 0) { let dy = -dy + (random.next(3) - 1); let y = radius; }
+      if (y + radius > 255) { let dy = -dy + (random.next(3) - 1); let y = 255 - radius; }
+
+      // Ensure the ball continues to move
+      if (dx = 0) { let dx = 1; }
+      if (dy = 0) { let dy = 1; }
+
+      do draw();
+      return;
+   }
+}

@@ -1,0 +1,17 @@
+/** Implements a simple pseudorandom number generator using LCG */
+class Random {
+
+   field int seed;
+
+   /** Initializes the generator with a seed value */
+   constructor Random new(int s) {
+      let seed = s;
+      return this;
+   }
+
+   /** Returns a pseudorandom number between 0 and max-1 */
+   method int next(int max) {
+      let seed = (seed * 2 + 5429) & 7; // LCG formula
+      return seed / max;
+   }
+}
